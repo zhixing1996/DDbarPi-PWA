@@ -1,0 +1,185 @@
+# Resonance configure list 
+# yaml format version , see more: https://yaml.org/
+# required pyyaml module
+
+# head resonance
+# resonance name as id 
+# quotation marks are option
+# head resonance will has head fixed to 1.0
+D2_2460: {
+  # spin [required]
+  J: 2, 
+  # parity [required]
+  P: 1, 
+  # resonance mass  : m_0 [required]
+  m0: 2.4706200612100364, # m_sigma: 0.1, 
+  m_max: 2.48, m_min: 2.44, # if max or min is not given, it will be +- 10*sigma
+  # resonance width : \Gamma_0 [required]
+  g0: 0.05275735961425952, # m_sigma: 0.01, 
+  g_max: 0.063, g_min: 0.038, # if max or min is not given, it will be +- 10*sigma
+  # set mass and gamma as variables
+  # float: mg,
+  # add gaussian constraint term (e.g. mean = m0, sigma = m_sigma)
+  #gauss_constr: mg,
+  # Breit Wigner formula [option]
+  model: "BWR_DIY",
+  # where used in decay
+  disable: False
+}
+
+#other resonance
+D2_2460p: {
+  Chain: 121, J: 2, Par: 1,
+  # coef_head make D2_2460p to use the params of D2_2460 by the same name
+  # only the total phase angle different
+  coef_head: "D2_2460", 
+  g0: 0.04491761602143079, g_max: 0.063, g_min: 0.038, 
+  m0: 2.4713325245390787, m_max: 2.48, m_min: 2.44,
+  model: "BWR_DIY",
+  # float: mg,
+}
+
+D2_2957: {
+  Chain: 11, J: 2, Par: 1, 
+  g0: 0.114, g_max: 0.21, g_min: 0.01, 
+  m0: 2.957, m_max: 3.03, m_min: 2.9,
+  model: "BW",
+  # float: mg,
+}
+
+D2_2957p: {
+  Chain: 111, J: 2, Par: 1, 
+  coef_head: "D2_2957", 
+  g0: 0.114, g_max: 0.21, g_min: 0.01, 
+  m0: 2.957, m_max: 3.03, m_min: 2.9,
+  model: "BW",
+  # float: mg,
+}
+
+D1_2420: {
+  Chain: 11, J: 1, Par: 1, 
+  g0: 0.0317, g_max: 0.0342, g_min: 0.0292, 
+  m0: 2.4208, m_max: 2.4213, m_min: 2.4203,
+}
+
+D1_2420p: {
+  Chain: 111, J: 1, Par: 1, 
+  coef_head: "D1_2420", 
+  g0: 0.025, g_max: 0.021, g_min: 0.019, 
+  m0: 2.4232, m_max: 2.4256, m_min: 2.4208,
+}
+
+D1_2430: {
+  Chain: 12, J: 1, Par: 1, 
+  g0: 0.384, g_max: 0.514, g_min: 0.274, 
+  m0: 2.427, m_max: 2.467, m_min: 2.387,
+}
+
+D1_2430p: {
+  Chain: 112, J: 1, Par: 1, 
+  coef_head: "D1_2430", 
+  g0: 0.384, g_max: 0.514, g_min: 0.274, 
+  m0: 2.427, m_max: 2.467, m_min: 2.387,
+}
+
+#D0_2550: {
+#  Chain: 1, J: 0, Par: -1, 
+#  m0: 2.518,
+#  g0: 0.199,
+#}
+
+#D0_2550p: {
+#  Chain: 101, J: 0, Par: -1, 
+#  coef_head: "D0_2550", 
+#  m0: 2.518,
+#  g0: 0.199,
+#}
+
+D1_2600: {
+  Chain: 11, J: 1, Par: -1, 
+  m0: 2.627, m_max: 2.7, m_min: 2.55,
+  g0: 0.141, g_max: 0.21, g_min: 0.072,
+  model: "BW",
+  # float: mg,
+}
+
+D1_2600p: {
+  Chain: 111, J: 1, Par: -1,
+  coef_head: "D1_2600", 
+  m0: 2.627, m_max: 2.7, m_min: 2.55,
+  g0: 0.141, g_max: 0.21, g_min: 0.072,
+  model: "BW",
+  # float: mg,
+}
+
+D3_2750: {
+  Chain: 11, J: 3, Par: -1, 
+  m0: 2.7631, m_max: 2.78, m_min: 2.74,
+  g0: 0.066, g_max: 0.088, g_min: 0.045,
+  model: "BW",
+  # float: mg,
+}
+
+D3_2750p: {
+  Chain: 111, J: 3, Par: -1,
+  coef_head: "D3_2750", 
+  m0: 2.7631, m_max: 2.78, m_min: 2.74,
+  g0: 0.066, g_max: 0.088, g_min: 0.045,
+  model: "BW",
+  # float: mg,
+}
+
+X_4000: {
+  Chain: -1, J: 1, Par: -1, 
+  g0: 0.021160514680461016, g_max: 0.02300, g_min: 0.01500, 
+  m0: 3.9956884285539305, m_max: 4.0100, m_min: 3.9500,
+  model: "BW",
+  # float: mg,
+  #total: 1.0,
+}
+
+Zc_4025: {
+  Chain: -1, J: 1, Par: 1, 
+  g0: 0.0248, 
+  m0: 4.0263,
+  #total: 1.0,
+}
+
+Zc_4160: {
+  Chain: -2, J: 1, Par: 1, 
+  g0: 0.0921485, 
+  m0: 4.17329,
+  float: #mg,
+}
+
+phsp: {
+  Chain: -1, J: 1, Par: -1, 
+  g0: 30., 
+  m0: 2.5,
+  model: "one"
+}
+
+D1_2760: {
+    Chain: -11,
+    m0: 2.781,
+    g0: 0.177,
+    m_max: 2.87, m_min: 2.71,
+    g_max: 0.3, g_min: 0.03,
+    J: 1,
+    Par: -1,
+    model: 'BW',
+    # float: mg,
+}
+
+D1_2760p: {
+    Chain: 11,
+    m0: 2.781,
+    g0: 0.177,
+    m_max: 2.87, m_min: 2.71,
+    g_max: 0.3, g_min: 0.03,
+    J: 1,
+    Par: -1,
+    coef_head: 'D1_2760',
+    model: 'BW',
+    # float: mg,
+}

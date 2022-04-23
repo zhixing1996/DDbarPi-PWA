@@ -1,17 +1,17 @@
 combination:
-  resonance: [D2_2460, D3_2750, D1_2760, D1_2600]
-  resonance_main: [D2_2460, D3_2750]
-  combination_veto: [(D2_2460, D1_2600), (D2_2460, D1_2750)]
+  resonance: [D2_2460, D3_2750, D1_2760, D2_2957, PHSP]
+  resonance_main: [D2_2460, D3_2750, D1_2760]
+  combination_veto: [(D3_2750, D1_2760), (D3_2750, D1_2760, PHSP)]
   # combination_focus: [D2_2460, D3_2750, D1_2750]
   combination_focus: []
 
 data:
-  sample: [4660, 4680, 4700]
+  sample: [4660, 4680, 4700, 4750, 4780, 4840]
   dat_order: [B, C, D]
-  data: ['/hpcfs/bes/gpupwa/jingmq/data_base/data_sample/data.dat']
-  phsp: ['/hpcfs/bes/gpupwa/jingmq/data_base/data_sample/phsp.dat']
-  bg: ['/hpcfs/bes/gpupwa/jingmq/data_base/data_sample/bkg.dat']
-  bg_weight: ['/hpcfs/bes/gpupwa/jingmq/data_base/data_sample/bkg_weight.dat']
+  data: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/data.dat']
+  phsp: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/phsp.dat']
+  bg: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/bkg.dat']
+  bg_weight: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/bkg_weight.dat']
   negtive_idx: []
   random_z: False
 
@@ -31,7 +31,7 @@ particle:
     B: {J: 0, P: -1}
     C: {J: 0, P: -1}
     D: {J: 0, P: -1}
-  $include: /hpcfs/bes/gpupwa/jingmq/data_base/Resonances.yml
+  $include: /hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/Resonances.yml
 
 constrains:
   particle: null
