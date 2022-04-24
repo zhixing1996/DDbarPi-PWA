@@ -1,20 +1,28 @@
 from .base_config import BaseConfig
-from .tools import combination_generator, combination_filter, conf_generator, paste, print_sep
+from .tools import (
+    combination_generator, 
+    combination_filter, 
+    conf_generator, 
+    paste, 
+    print_sep, 
+    sort_result, 
+    conf_draw_generator
+)
 import os, yaml, time
 cur_dir = os.path.abspath(os.path.dirname('__file__'))
 
 class ConfigLoader(BaseConfig):
     """ class for loading config.conf """
 
-    def __init__(self, file_name, share_dict = None):
+    def __init__(self, file_name, search_step = 1., converge_number = 3, share_dict = None):
         if share_dict is None:
             share_dict = {}
         super().__init__(file_name, share_dict)
         self.combos = self.generate_combination()
+        self.search_step = search_step
+        self.converge_number = converge_number
 
     def generate_combination(self):
-        print_sep('|', 50)
-        print('Generating combinations...')
         if self.config['combination']['combination_focus'] != []: ret = [tuple(self.config['combination']['combination_focus'])]
         else:
             ret = combination_filter(
@@ -39,6 +47,22 @@ class ConfigLoader(BaseConfig):
                 if not os.path.exists(path): os.makedirs(path)
                 with open(path + 'config.yml', 'w') as f:
                     yaml.dump(conf_generator(sample, self.config, combo), f)
+
+    def generate_conf_draw(self):
+        print_sep('|', 50)
+        print('Generating drawing configuration files...')
+        time.sleep(1)
+        for sample in self.config['data']['sample']:
+            print_sep('-', 50)
+            print('Proceeding {} sample...'.format(sample))
+            time.sleep(1)
+            for combo in self.combos:
+                print('Proceeding {} combo...'.format(paste(combo)))
+                time.sleep(1)
+                path = cur_dir + '/base_solution/' + str(sample) + '/' + paste(combo) + '/'
+                if not os.path.exists(path): os.makedirs(path)
+                with open(path + 'config_draw.yml', 'w') as f:
+                    yaml.dump(conf_draw_generator(sample, self.config, combo), f)
 
     def generate_job(self):
         print_sep('|', 50)
@@ -82,3 +106,18 @@ class ConfigLoader(BaseConfig):
                 time.sleep(1)
                 path = cur_dir + '/base_solution/' + str(sample) + '/' + paste(combo) + '/run'
                 os.system('cd ' + path + ' && sbatch submit_' + paste(combo) + '_gpu.sh')
+
+    def find_solution(self):
+        print_sep('|', 50)
+        print('Finding solutions...')
+        time.sleep(1)
+        for sample in self.config['data']['sample']:
+            print_sep('-', 50)
+            print('Proceeding {} sample...'.format(sample))
+            time.sleep(1)
+            for combo in self.combos:
+                print('Proceeding {} combo...'.format(paste(combo)))
+                time.sleep(1)
+                path = cur_dir + '/base_solution/' + str(sample) + '/' + paste(combo) + '/fit_result/'
+                solution = sort_result(path, self.search_step, self.converge_number)
+                os.system('cp ' + path + 'final_params_' + str(solution) + '.json ' + path + '../final_params.json -rf')

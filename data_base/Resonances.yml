@@ -18,7 +18,7 @@ D2_2460: {
   g0: 0.05275735961425952, # m_sigma: 0.01, 
   g_max: 0.063, g_min: 0.038, # if max or min is not given, it will be +- 10*sigma
   # set mass and gamma as variables
-  # float: mg,
+  float: mg,
   # add gaussian constraint term (e.g. mean = m0, sigma = m_sigma)
   #gauss_constr: mg,
   # Breit Wigner formula [option]
@@ -36,7 +36,7 @@ D2_2460p: {
   g0: 0.04491761602143079, g_max: 0.063, g_min: 0.038, 
   m0: 2.4713325245390787, m_max: 2.48, m_min: 2.44,
   model: "BWR_DIY",
-  # float: mg,
+  float: mg,
 }
 
 D2_2957: {

@@ -1,5 +1,6 @@
 from itertools import combinations
 from copy import deepcopy
+import os, yaml
 
 def print_sep(mark, N):
     print(mark * N)
@@ -51,4 +52,48 @@ def conf_generator(sample, config, combo):
     conf_tmp['particle']['R_BC'] = [res for res in combo if res != 'PHSP' and res[0] != 'D']
     conf['particle'] = conf_tmp['particle']
     conf['constrains'] = conf_tmp['constrains']
+    return conf
+
+def sort_result(path, search_step, converge_number):
+    import pandas as pd
+    import numpy as np
+    import matplotlib.pyplot as plt
+    file_num = len(os.listdir(path))
+    results = {
+        'index': [],
+        'NLL': [],
+    }
+    index, NLL = [], []
+    for count in range(file_num):
+        f_name = path + '/final_params_' + str(count + 1) + '.json'
+        with open(f_name) as f:
+            result = yaml.load(f, yaml.FullLoader)
+        if result['status']['success'] != True: continue
+        index.append(count + 1)
+        NLL.append(result['status']['NLL'])
+    results['index'] = index
+    results['NLL'] = NLL
+    pd_results = pd.DataFrame(results)
+    sorted_results = pd_results.sort_values(by = 'NLL')
+    NLL_min = min(sorted_results['NLL'])
+    NLL_max = max(sorted_results['NLL'])
+    bins = list(np.arange(int(NLL_min) - 1., int(NLL_max) + 1., search_step))
+    segments = pd.cut(sorted_results['NLL'], bins)
+    counts = pd.value_counts(segments, sort = False)
+    converge_range = ''
+    for idx in counts.index:
+        if counts[idx] >= converge_number:
+            converge_range = idx
+            break
+    converge_min, converge_max = map(float, str(converge_range).strip().strip('(').strip(')').strip('[').strip(']').replace(',', '').split())
+    solutions = solution_filter(sorted_results, converge_max, converge_min)
+    return solutions.index[0]
+
+def solution_filter(results, max, min):
+    return results[(results.NLL > min) & (results.NLL < max)]
+
+def conf_draw_generator(sample, config, combo):
+    conf = {}
+    conf = conf_generator(sample, config, combo)
+    conf['plot'] = config['plot']
     return conf

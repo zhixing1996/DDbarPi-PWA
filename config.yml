@@ -3,7 +3,7 @@ combination:
   resonance_main: [D2_2460, D3_2750, D1_2760]
   combination_veto: [(D3_2750, D1_2760), (D3_2750, D1_2760, PHSP)]
   # combination_focus: [D2_2460, D3_2750, D1_2750]
-  combination_focus: []
+  combination_focus: [D2_2460, D3_2750, D1_2760]
 
 data:
   sample: [4660, 4680, 4700, 4750, 4780, 4840]
@@ -38,3 +38,51 @@ constrains:
   decay: null
   fix_var:
     'A->D2_2460.CD2_2460->B.D_total_0i': 0.0
+
+plot:
+  mass:
+    R_BC: { display: "$M_{BC}$" }
+    R_BD: { display: "$M_{BD}$" }
+    R_CD: { display: "$M_{CD}$" }
+  2Dplot:
+    m_R_CD & m_R_BC:
+      display: "$M_{CD}$ vs $M_{BC}$"
+      plot_figs: ["data", "sideband", "fitted"]
+    m_R_CD & m_R_BD:
+      display: "$M_{CD}$ vs $M_{BD}$"
+      plot_figs: ["data", "sideband", "fitted"]
+    m_R_BC & m_R_BD:
+      display: "$M_{BC}$ vs $M_{BD}$"
+      plot_figs: ["data", "sideband", "fitted"]
+  angle:
+    A/R_CD:
+      alpha:
+        display: "$\\phi_{CD}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{CD})$"
+        range: [-1, 1]
+    A/R_BD:
+      alpha:
+        display: "$\\phi_{BD}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{BD})$"
+    A/R_BC:
+      alpha:
+        display: "$\\phi_{BC}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{BC})$"
+    R_BC/B:
+      alpha:
+        display: "$\\phi_{B/BC}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{B/BC})$"
+    R_CD/C:
+      alpha:
+        display: "$\\phi_{C/CD}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{C/CD})$"
+    R_BD/B:
+      alpha:
+        display: "$\\phi_{B/BD}$"
+      cos(beta):
+        display: "$\\cos(\\theta_{B/BD})$"
