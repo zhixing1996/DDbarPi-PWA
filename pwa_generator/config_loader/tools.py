@@ -86,8 +86,12 @@ def sort_result(path, search_step, converge_number):
             converge_range = idx
             break
     converge_min, converge_max = map(float, str(converge_range).strip().strip('(').strip(')').strip('[').strip(']').replace(',', '').split())
+    print('Sorted_results: \n', sorted_results, converge_min, converge_max)
+    print('Counted results:\n', counts)
     solutions = solution_filter(sorted_results, converge_max, converge_min)
-    return solutions.index[0]
+    solution = sorted_results['index'][solutions.index[0]]
+    print('solution {}, converged from {}/{}: \n'.format(str(solution), converge_number, file_num))
+    return solution
 
 def solution_filter(results, max, min):
     return results[(results.NLL > min) & (results.NLL < max)]

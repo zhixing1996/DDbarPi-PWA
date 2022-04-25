@@ -2,11 +2,12 @@ combination:
   resonance: [D2_2460, D3_2750, D1_2760, D2_2957, PHSP]
   resonance_main: [D2_2460, D3_2750, D1_2760]
   combination_veto: [(D3_2750, D1_2760), (D3_2750, D1_2760, PHSP)]
-  # combination_focus: [D2_2460, D3_2750, D1_2750]
   combination_focus: [D2_2460, D3_2750, D1_2760]
+  # combination_focus: []
 
 data:
-  sample: [4660, 4680, 4700, 4750, 4780, 4840]
+  # sample: [4660, 4680, 4700, 4750, 4780, 4840]
+  sample: [4680]
   dat_order: [B, C, D]
   data: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/data.dat']
   phsp: ['/hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/data_base/data_sample/phsp.dat']

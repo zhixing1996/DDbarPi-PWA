@@ -120,4 +120,21 @@ class ConfigLoader(BaseConfig):
                 time.sleep(1)
                 path = cur_dir + '/base_solution/' + str(sample) + '/' + paste(combo) + '/fit_result/'
                 solution = sort_result(path, self.search_step, self.converge_number)
-                os.system('cp ' + path + 'final_params_' + str(solution) + '.json ' + path + '../final_params.json -rf')
+                os.system('rm -rf ' + path + 'final_params.json')
+                os.system('cp ' + path + 'final_params_' + str(solution) + '.json ' + path + '../final_params.json')
+
+    def draw_result(self):
+        print_sep('|', 50)
+        print('Finding solutions...')
+        time.sleep(1)
+        for sample in self.config['data']['sample']:
+            print_sep('-', 50)
+            print('Proceeding {} sample...'.format(sample))
+            time.sleep(1)
+            for combo in self.combos:
+                print('Proceeding {} combo...'.format(paste(combo)))
+                time.sleep(1)
+                path = cur_dir + '/base_solution/' + str(sample) + '/' + paste(combo) + '/'
+                os.system('python ' + path + 'fit.py --config ' + path + 'config_draw.yml --init_params ' + path + 'final_params.json')
+                os.system('rm ' + path + 'figure -rf')
+                os.system('mv figure ' + path + ' && mv final_params.json ' + path)
