@@ -7,10 +7,13 @@ def print_sep(mark, N):
 
 def combination_generator(resonances):
     combos = []
-    for i in range(len(resonances) + 1):
-        if i < 2: continue
-        else:
-            for combo in combinations(resonances, i): combos.append(combo)
+    if len(resonances) == 1:
+        for combo in combinations(resonances, 1): combos.append(combo)
+    else:
+        for i in range(len(resonances) + 1):
+            if i < 2: continue
+            else:
+                for combo in combinations(resonances, i): combos.append(combo)
     return combos
 
 def combination_filter(resonance_main, combination_veto, combos):
