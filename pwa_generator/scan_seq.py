@@ -3,13 +3,15 @@ import os, collections, yaml
 scan = collections.namedtuple('scan', 'path mass width NLL')
 
 class scan_seq:
-    def __init__(self, resonance, path, decimal):
+    def __init__(self, sample, resonance, scan_path, decimal):
+        self._sample = sample
         self._resonance = resonance
-        self._scan_path = path
+        self._scan_path = scan_path
         self._decimal = decimal
         scans = []
-        for p in os.listdir(path):
-            with open(p + '/final_params.json') as f:
+        for p in os.listdir(scan_path):
+            print('Procedding {}...'.format(p))
+            with open(scan_path + p + '/final_params.json') as f:
                 result = yaml.load(f, yaml.FullLoader)
             path = p
             mass = result['value'][resonance + '_mass']
@@ -26,17 +28,20 @@ class scan_seq:
             mass.append(scan.mass)
             width.append(scan.width)
             index = str(scan.mass) + '_' + str(scan.width)
-            nll[index] = scan.nll
+            nll[index] = scan.NLL
         massn = np.unique(mass)
         widthn = np.unique(width)
         MASSm, WIDTHm = np.meshgrid(massn, widthn)
         nllm = []
         temp = []
-        for m in massn:
-            for w in widthn:
+        mini_NLL, mini_m, mini_w = 999999., 0., 0.
+        for w in widthn:
+            for m in massn:
                 idx = str(m) + '_' + str(w)
                 NLL = nll[idx]
                 temp.append(NLL)
+                if mini_NLL > NLL:
+                    mini_NLL, mini_m, mini_w = NLL, m, w
             nllm.append(temp)
             temp = []
         NLLm = np.array(nllm)
@@ -50,7 +55,10 @@ class scan_seq:
         plt.clabel(cset, inline = True)
         plt.colorbar(plot)
         if not os.path.exists('./figs/'): os.makedirs('./figs/')
-        plt.savefig('./figs/' + str(self._resonance) + '_mass_width_scan.pdf', dpi = 400, bbox_inches = 'tight')
+        plt.savefig('./figs/' + str(self._sample) + '_' + str(self._resonance) + '_mass_width_scan.pdf', dpi = 400, bbox_inches = 'tight')
+        if not os.path.exists('./txts/'): os.makedirs('./txts/')
+        with open('./txts/' + str(self._sample) + '_' + self._resonance + '_m_w_scan.txt', 'w') as f:
+            f.write('mass: {}, width: {}, NLL: {}'.format(mini_m, mini_w, mini_NLL))
         plt.show()
 
     def __len__(self):
