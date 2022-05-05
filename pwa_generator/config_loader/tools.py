@@ -104,3 +104,11 @@ def conf_draw_generator(sample, config, combo):
     conf = conf_generator(sample, config, combo)
     conf['plot'] = config['plot']
     return conf
+
+class string_list(list):
+    def __str__(self):
+        ret = '['
+        for l in self[:-1]:
+            ret += '\'' + str(l) + '\', '
+        ret += '\'' + str(self[-1]) + '\']'
+        return ret

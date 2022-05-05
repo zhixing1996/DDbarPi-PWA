@@ -16,7 +16,7 @@
 #SBATCH --account=gpupwa
   
 # Specify your job name, optional option, but strongly recommand to specify some name
-#SBATCH --job-name=scan
+#SBATCH --job-name=scan_RES
   
 # Specify how many cores you will need, default is one if not specified
 #SBATCH --ntasks=2
@@ -47,5 +47,5 @@ srun -l hostname
 /usr/bin/nvidia-smi -L
 echo "Allocate GPU cards : ${CUDA_VISIBLE_DEVICES}"
   
-cd /hpcfs/bes/gpupwa/jingmq/DDbarPi-PWA/
-python scan.py
+cd PATH/run
+python scan_IDX.py

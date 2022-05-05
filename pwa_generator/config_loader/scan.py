@@ -2,7 +2,7 @@ import os, yaml, json
 cur_dir = os.path.abspath(os.path.dirname('__file__'))
 from .tools import sort_result
 
-def deploy_scan(path, mass, width, decimal, conf, resonance_scan, resonances, f_res_base):
+def deploy_scan(path, mass, width, decimal, conf, resonance_scan, resonances, f_res_base, scan_list_size):
     path_root = path
     path += resonance_scan + '/'
     if not os.path.exists(path): os.makedirs(path)
@@ -37,9 +37,10 @@ def deploy_scan(path, mass, width, decimal, conf, resonance_scan, resonances, f_
             with open(scan_path + 'init_params.json', 'w') as f:
                 json.dump(init_params, f, indent = 2)
             scan_list.append(scan_path)
-    return scan_list
+    scan_list_group = split_list(scan_list, scan_list_size)
+    return scan_list_group
 
-def execute_scan(scan_list, path, search_step, converge_number):
+def execute_scan(scan_list, search_step, converge_number):
     for scan in scan_list:
         os.system('mkdir -p ' + scan + 'fit_results')
         for i in range(1):
@@ -56,3 +57,7 @@ def generate_init_params(path, resonance_scan, m, w):
     params['value'][resonance_scan + '_mass'] = m
     params['value'][resonance_scan + '_width'] = w
     return params
+
+def split_list(l, n):
+    for i in range(0, len(l), n):
+        yield l[i:i + n]

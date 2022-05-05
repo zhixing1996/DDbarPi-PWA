@@ -16,7 +16,7 @@ cur_dir = os.path.abspath(os.path.dirname('__file__'))
 class ConfigLoader(BaseConfig):
     """ class for loading config.conf """
 
-    def __init__(self, file_name, search_step = 1., converge_number = 3, scan_decimal = 0.0001, share_dict = None):
+    def __init__(self, file_name, search_step = 1., converge_number = 3, scan_decimal = 0.00001, share_dict = None):
         if share_dict is None:
             share_dict = {}
         super().__init__(file_name, share_dict)
@@ -24,6 +24,7 @@ class ConfigLoader(BaseConfig):
         self.search_step = search_step
         self.converge_number = converge_number
         self.scan_decimal = scan_decimal
+        self.cur_path = cur_dir + '/'
 
     def generate_combination(self):
         if self.config['combination']['combination_focus'] != []: ret = [tuple(self.config['combination']['combination_focus'])]
@@ -142,7 +143,7 @@ class ConfigLoader(BaseConfig):
                 os.system('rm ' + path + 'figure -rf')
                 os.system('mv figure ' + path + ' && mv final_params.json ' + path)
 
-    def scan(self):
+    def prepare_scan(self, scan_list_size):
         print_sep('|', 50)
         print('Scanning mass and width of {}...'.format(self.config['scan']['resonance']))
         time.sleep(1)
@@ -168,8 +169,31 @@ class ConfigLoader(BaseConfig):
             resonances.extend(conf['particle']['R_BD'])
             resonances.extend(conf['particle']['R_CD'])
             resonances.extend(conf['particle']['R_BC'])
-            scan_list = deploy_scan(path, self.config['scan']['mass'], self.config['scan']['width'], self.scan_decimal, conf, self.config['scan']['resonance'], resonances, self.config['particle']['$include'])
-            execute_scan(scan_list, path, self.search_step, self.converge_number)
+            self.scan_root_path = path + self.config['scan']['resonance'] + '/'
+            scan_list = deploy_scan(path, self.config['scan']['mass'], self.config['scan']['width'], self.scan_decimal, conf, self.config['scan']['resonance'], resonances, self.config['particle']['$include'], scan_list_size)
+            return scan_list
+
+    def scan(self, scan_list):
+        print_sep('|', 50)
+        print('Scanning mass and width of {}...'.format(self.config['scan']['resonance']))
+        time.sleep(1)
+        for sample in self.config['data']['sample']:
+            print_sep('-', 50)
+            print('Proceeding {} sample...'.format(sample))
+            time.sleep(1)
+            if len(self.combos) != 1:
+                print('You have to focus on one combo to perform mass and width scan, please set it!')
+                exit()
+            combo = self.combos[0]
+            temp_res = self.config['scan']['resonance']
+            if not (temp_res in combo or temp_res[:-1] in combo):
+                print('The resonance you scan is not in the combo you focus on!')
+                exit()
+            print('Proceeding {} combo...'.format(paste(combo)))
+            time.sleep(1)
+            print('Scanning {}...'.format(self.config['scan']['resonance']))
+            time.sleep(1)
+            execute_scan(scan_list, self.search_step, self.converge_number)
 
     def draw_scan_result(self):
         print_sep('|', 50)
@@ -183,7 +207,8 @@ class ConfigLoader(BaseConfig):
                 print('You have to focus on one combo to perform mass and width scan, please set it!')
                 exit()
             combo = self.combos[0]
-            if not self.config['scan']['resonance'] in combo:
+            temp_res = self.config['scan']['resonance']
+            if not (temp_res in combo or temp_res[:-1] in combo):
                 print('The resonance you scan is not in the combo you focus on!')
                 exit()
             print('Proceeding {} combo...'.format(paste(combo)))

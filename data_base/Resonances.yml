@@ -12,17 +12,17 @@ D2_2460: {
   # parity [required]
   P: 1, 
   # resonance mass  : m_0 [required]
-  m0: 2.4706200612100364, # m_sigma: 0.1, 
-  m_max: 2.48, m_min: 2.44, # if max or min is not given, it will be +- 10*sigma
+  m0: 2.4678, # m_sigma: 0.1, 
+  m_max: 2.49, m_min: 2.44, # if max or min is not given, it will be +- 10*sigma
   # resonance width : \Gamma_0 [required]
-  g0: 0.05275735961425952, # m_sigma: 0.01, 
-  g_max: 0.063, g_min: 0.038, # if max or min is not given, it will be +- 10*sigma
+  g0: 0.042499999999999996, # m_sigma: 0.01, 
+  g_max: 0.063, g_min: 0.028, # if max or min is not given, it will be +- 10*sigma
   # set mass and gamma as variables
-  float: mg,
+  # float: mg,
   # add gaussian constraint term (e.g. mean = m0, sigma = m_sigma)
   #gauss_constr: mg,
   # Breit Wigner formula [option]
-  model: "BWR_DIY",
+  model: "BWR_D2_2460",
   # where used in decay
   disable: False
 }
@@ -33,10 +33,10 @@ D2_2460p: {
   # coef_head make D2_2460p to use the params of D2_2460 by the same name
   # only the total phase angle different
   coef_head: "D2_2460", 
-  g0: 0.04491761602143079, g_max: 0.063, g_min: 0.038, 
-  m0: 2.4713325245390787, m_max: 2.48, m_min: 2.44,
-  model: "BWR_DIY",
-  float: mg,
+  m0: 2.476, m_max: 2.49, m_min: 2.44,
+  g0: 0.041999999999999996, g_max: 0.063, g_min: 0.028, 
+  model: "BWR_D2_2460p",
+  # float: mg,
 }
 
 D2_2957: {
@@ -114,8 +114,8 @@ D1_2600p: {
 
 D3_2750: {
   Chain: 11, J: 3, Par: -1, 
-  m0: 2.7631, m_max: 2.78, m_min: 2.74,
-  g0: 0.066, g_max: 0.088, g_min: 0.045,
+  m0: 2.7600000000000002, m_max: 2.9, m_min: 2.4,
+  g0: 0.055, g_max: 0.12, g_min: 0.01,
   model: "BW",
   # float: mg,
 }
@@ -123,8 +123,10 @@ D3_2750: {
 D3_2750p: {
   Chain: 111, J: 3, Par: -1,
   coef_head: "D3_2750", 
-  m0: 2.7631, m_max: 2.78, m_min: 2.74,
-  g0: 0.066, g_max: 0.088, g_min: 0.045,
+  # m0: 2.7631, m_max: 2.9, m_min: 2.4,
+  # g0: 0.066, g_max: 0.12, g_min: 0.01,
+  m0: 2.7600000000000002, m_max: 2.9, m_min: 2.4,
+  g0: 0.055, g_max: 0.12, g_min: 0.01,
   model: "BW",
   # float: mg,
 }
