@@ -44,7 +44,13 @@ def conf_generator(sample, config, combo):
     conf_tmp['data']['data'][0] = conf_tmp['data']['data'][0].replace('sample', str(sample))
     conf_tmp['data']['phsp'][0] = conf_tmp['data']['phsp'][0].replace('sample', str(sample))
     conf_tmp['data']['bg'][0] = conf_tmp['data']['bg'][0].replace('sample', str(sample))
-    conf_tmp['data']['bg_weight'][0] = conf_tmp['data']['bg_weight'][0].replace('sample', str(sample))
+    try:
+        conf_tmp['data']['bg_weight'][0] = conf_tmp['data']['bg_weight'][0].replace('sample', str(sample))
+    except TypeError:
+        conf_tmp['data']['bg_weight'] = float(conf_tmp['data']['bg_weight'])
+    except:
+        print('bg_weight must be a string or a float number, please check!')
+        exit()
     del(conf_tmp['data']['sample'])
     conf['data'] = conf_tmp['data']
     conf['decay'] = conf_tmp['decay']
