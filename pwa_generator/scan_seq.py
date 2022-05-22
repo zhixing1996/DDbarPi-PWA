@@ -10,6 +10,7 @@ class scan_seq:
         self._decimal = decimal
         scans = []
         for p in os.listdir(scan_path):
+            if p == 'run': continue
             print('Procedding {}...'.format(p))
             with open(scan_path + p + '/final_params.json') as f:
                 result = yaml.load(f, yaml.FullLoader)

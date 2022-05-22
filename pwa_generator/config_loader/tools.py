@@ -48,11 +48,11 @@ def conf_generator(sample, config, combo):
     del(conf_tmp['data']['sample'])
     conf['data'] = conf_tmp['data']
     conf['decay'] = conf_tmp['decay']
-    conf_tmp['particle']['R_BD'] = [res for res in combo if res != 'PHSP']
-    phsp = [res.lower() for res in combo if res == 'PHSP']
+    conf_tmp['particle']['R_BD'] = [res for res in combo if not 'PHSP' in res]
+    phsp = [res.lower() for res in combo if 'PHSP' in res]
     if phsp != []: conf_tmp['particle']['R_BD'].append(phsp[0])
-    conf_tmp['particle']['R_CD'] = [res + 'p' for res in combo if res != 'PHSP']
-    conf_tmp['particle']['R_BC'] = [res for res in combo if res != 'PHSP' and res[0] != 'D']
+    conf_tmp['particle']['R_CD'] = [res + 'p' for res in combo if not 'PHSP' in res]
+    conf_tmp['particle']['R_BC'] = [res for res in combo if (not 'PHSP' in res) and res[0] != 'D']
     conf['particle'] = conf_tmp['particle']
     conf['constrains'] = conf_tmp['constrains']
     return conf

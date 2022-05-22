@@ -193,7 +193,7 @@ class ConfigLoader(BaseConfig):
             time.sleep(1)
             print('Scanning {}...'.format(self.config['scan']['resonance']))
             time.sleep(1)
-            execute_scan(scan_list, self.search_step, self.converge_number)
+            execute_scan(scan_list, self.search_step, self.converge_number, self.config['scan']['projection'], self.config['scan']['nbins'])
 
     def draw_scan_result(self):
         print_sep('|', 50)

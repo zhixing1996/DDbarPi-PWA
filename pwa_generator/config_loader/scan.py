@@ -40,11 +40,11 @@ def deploy_scan(path, mass, width, decimal, conf, resonance_scan, resonances, f_
     scan_list_group = split_list(scan_list, scan_list_size)
     return scan_list_group
 
-def execute_scan(scan_list, search_step, converge_number):
+def execute_scan(scan_list, search_step, converge_number, projection = 'BD', nbins = 400):
     for scan in scan_list:
         os.system('mkdir -p ' + scan + 'fit_results')
         for i in range(1):
-            os.system('cd ' + scan + ' && python ' + scan + 'fit.py --config ' + scan + 'config.yml --init_params ' + scan + 'init_params.json')
+            os.system('cd ' + scan + ' && python ' + scan + 'fit.py --config ' + scan + 'config.yml --init_params ' + scan + 'init_params.json' + ' -r ' + projection + ' -b ' + str(nbins))
             os.system('mv ' + scan + 'final_params.json ' + scan + 'fit_results/final_params_' + str(i + 1) + '.json')
         # solution = sort_result(scan + 'fit_results', search_step, converge_number)
         # os.system('mv ' + scan + 'fit_results/final_params_' + str(solution) + '.json ' + scan + 'final_params.json')
